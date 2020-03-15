@@ -12,7 +12,7 @@ namespace Serilog.Sinks.Slack.Core.Sinks.Slack.Client
         private readonly Uri _webhookUrl;
         private readonly HttpClient _httpClient = new HttpClient();
 
-        private const string ValidHost = "hooks.slack.com";
+        private const string[] ValidHosts = { "hooks.slack.com", "canary.discordapp.com", "ptb.discordapp.com", "discordapp.com";
 
         /// <summary>
         /// Returns the HTTP Client's current Timeout value.
@@ -24,7 +24,7 @@ namespace Serilog.Sinks.Slack.Core.Sinks.Slack.Client
             if (!Uri.TryCreate(webhookUrl, UriKind.Absolute, out _webhookUrl))
                 throw new ArgumentException("Please enter a valid Slack webhook url");
 
-            if (_webhookUrl.Host != ValidHost)
+            if (!ValidHosts.Contains(_webhookUrl.Host))
                 throw new ArgumentException("Please enter a valid Slack webhook url");
 
             _httpClient.Timeout = new TimeSpan(0, 0, 0, timeoutSeconds);
